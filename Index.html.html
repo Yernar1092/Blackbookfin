@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090909">
+<title>BLACKBOOK — Финансы</title>
+<style>
+:root{--bg:#090909;--panel:#111;--panel2:#171717;--line:#2b2b2b;--text:#f5f5f5;--muted:#9b9b9b;--soft:#d5d5d5;--green:#b9f4c8;--red:#ffb5b5;--radius:20px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;letter-spacing:-.01em}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:24px 18px 100px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}.brand{font-size:13px;letter-spacing:.22em;font-weight:800}.brand span{color:#777}.month{color:var(--muted);font-size:13px}
+h1{font-size:clamp(28px,5vw,42px);letter-spacing:-.055em;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 24px;line-height:1.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 14px;border-radius:12px;font-weight:650}.btn.primary{background:#f5f5f5;color:#080808;border-color:#f5f5f5}.btn.small{padding:7px 10px;font-size:12px}.btn.danger{color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}.card{background:linear-gradient(145deg,#151515,#101010);border:1px solid var(--line);border-radius:var(--radius);padding:18px;min-width:0}.label{color:var(--muted);font-size:12px;margin-bottom:12px}.value{font-size:clamp(20px,3vw,29px);font-weight:750;letter-spacing:-.04em;overflow-wrap:anywhere}.hint{color:var(--muted);font-size:12px;margin-top:8px}.positive{color:var(--green)}.negative{color:var(--red)}
+.tabs{display:flex;gap:6px;overflow:auto;padding:4px 0 14px;margin-bottom:12px}.tab{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:10px 16px;white-space:nowrap}.tab.active{background:#f3f3f3;color:#111;border-color:#f3f3f3}
+.panel{display:none}.panel.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:6px 0 16px}.section-head h2{font-size:20px;letter-spacing:-.04em;margin:0}.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.list{display:flex;flex-direction:column;gap:8px}.item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#151515;border:1px solid #242424;border-radius:14px;padding:13px}.item-main{min-width:0}.item-title{font-weight:650;overflow-wrap:anywhere}.item-meta{font-size:12px;color:var(--muted);margin-top:5px}.item-right{text-align:right;flex-shrink:0}.item-amount{font-weight:750}.empty{border:1px dashed #333;border-radius:16px;padding:26px;text-align:center;color:var(--muted);line-height:1.5}
+form{display:grid;gap:12px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:grid;gap:7px}.field label{font-size:12px;color:var(--muted)}.field input,.field select{width:100%;background:#090909;border:1px solid #333;color:#fff;border-radius:11px;padding:12px;min-width:0}.field input:focus,.field select:focus{outline:1px solid #aaa}.form-actions{display:flex;gap:8px;flex-wrap:wrap}
+.chart-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;position:relative;flex-shrink:0;background:conic-gradient(#eee 0 100%)}.donut:after{content:"";position:absolute;inset:17px;background:#111;border-radius:50%}.donut-center{position:relative;z-index:1;text-align:center}.donut-center b{display:block;font-size:18px}.donut-center small{color:var(--muted);font-size:11px}.legend{display:grid;gap:9px;flex:1;min-width:160px}.legend-row{display:flex;justify-content:space-between;gap:12px;font-size:13px}.legend-row span:first-child{color:#bbb}.bar-list{display:grid;gap:12px}.bar-row{display:grid;grid-template-columns:90px 1fr auto;gap:10px;align-items:center;font-size:12px}.bar-bg{height:8px;background:#292929;border-radius:99px;overflow:hidden}.bar{height:100%;background:#eee;border-radius:99px}.muted{color:var(--muted)}.footer{margin-top:30px;color:#666;font-size:11px;line-height:1.6;text-align:center}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#f2f2f2;color:#111;padding:12px 16px;border-radius:12px;font-weight:650;display:none;z-index:10;box-shadow:0 10px 40px #0008}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:20}.modal.open{display:flex}.modal-card{width:min(540px,100%);max-height:90vh;overflow:auto;background:#111;border:1px solid #333;border-radius:22px;padding:20px}.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-top h3{margin:0;font-size:20px}.close{border:0;background:#222;color:#fff;border-radius:10px;padding:8px 11px}
+@media(max-width:760px){.app{padding:18px 13px 100px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:14px}.grid2{grid-template-columns:1fr}.top{align-items:flex-start}.formgrid{grid-template-columns:1fr 1fr}.value{font-size:23px}.bar-row{grid-template-columns:76px 1fr auto}}
+@media(max-width:380px){.formgrid{grid-template-columns:1fr}.actions .btn{padding:9px 10px}.stats .card{padding:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div class="brand">BLACK<span>/</span>BOOK <span>FINANCE</span></div><div class="month" id="monthLabel"></div></header>
+  <h1>Деньги под контролем.</h1>
+  <p class="sub">Личный финансовый кабинет. Данные хранятся в этом браузере на твоём устройстве.</p>
+  <div class="actions">
+    <button class="btn primary" onclick="openTx()">＋ Операция</button>
+    <button class="btn" onclick="openDebt()">＋ Долг</button>
+    <button class="btn" onclick="exportData()">Экспорт данных</button>
+    <button class="btn" onclick="document.getElementById('importFile').click()">Импорт</button>
+    <input id="importFile" type="file" accept=".json,.csv,application/json,text/csv" hidden onchange="importData(event)">
+  </div>
+  <section class="stats">
+    <div class="card"><div class="label">БАЛАНС ЗА МЕСЯЦ</div><div class="value" id="balance">0 ₸</div><div class="hint" id="balanceHint">Доходы минус расходы</div></div>
+    <div class="card"><div class="label">ДОХОДЫ</div><div class="value positive" id="income">0 ₸</div><div class="hint">За выбранный месяц</div></div>
+    <div class="card"><div class="label">РАСХОДЫ</div><div class="value" id="expense">0 ₸</div><div class="hint">За выбранный месяц</div></div>
+    <div class="card"><div class="label">ОСТАТОК ДОЛГОВ</div><div class="value" id="debtTotal">0 ₸</div><div class="hint" id="debtHint">По всем долгам</div></div>
+  </section>
+  <nav class="tabs">
+    <button class="tab active" data-tab="overview">Обзор</button><button class="tab" data-tab="transactions">Операции</button><button class="tab" data-tab="debts">Долги и платежи</button><button class="tab" data-tab="statistics">Статистика</button>
+  </nav>
+  <section class="panel active" id="overview">
+    <div class="grid2">
+      <div class="card"><div class="section-head"><h2>Последние операции</h2><button class="btn small" onclick="switchTab('transactions')">Все операции</button></div><div class="list" id="recentList"></div></div>
+      <div class="card"><div class="section-head"><h2>Расходы по категориям</h2><span class="muted" style="font-size:12px">Этот месяц</span></div><div id="overviewChart"></div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="section-head"><h2>Ближайшие платежи</h2><button class="btn small" onclick="switchTab('debts')">Управлять</button></div><div class="list" id="upcomingList"></div></div>
+  </section>
+  <section class="panel" id="transactions">
+    <div class="section-head"><h2>Все операции</h2><button class="btn primary" onclick="openTx()">＋ Добавить</button></div>
+    <div class="card"><div class="formgrid" style="margin-bottom:14px"><div class="field"><label>Месяц</label><input type="month" id="filterMonth" onchange="render()"></div><div class="field"><label>Тип</label><select id="filterType" onchange="render()"><option value="all">Все операции</option><option value="income">Доходы</option><option value="expense">Расходы</option></select></div></div><div class="list" id="txList"></div></div>
+  </section>
+  <section class="panel" id="debts">
+    <div class="section-head"><h2>Долги и платежи</h2><button class="btn primary" onclick="openDebt()">＋ Добавить долг</button></div>
+    <div class="grid2"><div class="card"><div class="label">ОБЩИЙ ОСТАТОК ДОЛГА</div><div class="value" id="debtPageTotal">0 ₸</div><p class="hint">После каждого погашения обновляй остаток долга.</p><div class="list" id="debtList"></div></div><div class="card"><div class="section-head"><h2>Платежи</h2></div><div class="list" id="paymentList"></div><p class="hint">Платёж можно отметить как оплаченный — сайт добавит расход в операции.</p></div></div>
+  </section>
+  <section class="panel" id="statistics">
+    <div class="section-head"><h2>Статистика</h2><div class="field"><select id="statsPeriod" onchange="render()"><option value="6">Последние 6 месяцев</option><option value="12">Последние 12 месяцев</option></select></div></div>
+    <div class="grid2"><div class="card"><div class="section-head"><h2>Доходы и расходы</h2></div><div id="monthlyBars" class="bar-list"></div></div><div class="card"><div class="section-head"><h2>Категории расходов</h2></div><div id="statsChart"></div></div></div>
+    <div class="card" style="margin-top:14px"><div class="section-head"><h2>Разбивка по категориям</h2></div><div class="list" id="categoryList"></div></div>
+  </section>
+  <div class="footer">BLACK/BOOK · ЛОКАЛЬНОЕ ХРАНЕНИЕ · НЕТ АККАУНТА ИЛИ ПОДПИСКИ<br>Не очищай данные сайта, пока не сохранишь резервную копию JSON.</div>
+</div>
+<div class="modal" id="txModal"><div class="modal-card"><div class="modal-top"><h3>Новая операция</h3><button class="close" onclick="closeModal('txModal')">✕</button></div><form id="txForm">
+<div class="formgrid"><div class="field"><label>Тип операции</label><select id="txType"><option value="expense">Расход</option><option value="income">Доход</option></select></div><div class="field"><label>Сумма, ₸</label><input id="txAmount" type="number" min="1" step="1" required placeholder="Например, 12000"></div></div>
+<div class="formgrid"><div class="field"><label>Категория</label><select id="txCategory"><option>Продукты</option><option>Транспорт</option><option>Жильё</option><option>Кредиты и долги</option><option>Связь</option><option>Здоровье</option><option>Одежда</option><option>Развлечения</option><option>Зарплата</option><option>Подработка</option><option>Перевод</option><option>Другое</option></select></div><div class="field"><label>Дата</label><input id="txDate" type="date" required></div></div>
+<div class="field"><label>Описание</label><input id="txNote" maxlength="120" placeholder="Например, продукты на неделю"></div><div class="form-actions"><button class="btn primary" type="submit">Сохранить операцию</button><button class="btn" type="button" onclick="closeModal('txModal')">Отмена</button></div></form></div></div>
+<div class="modal" id="debtModal"><div class="modal-card"><div class="modal-top"><h3>Новый долг</h3><button class="close" onclick="closeModal('debtModal')">✕</button></div><form id="debtForm">
+<div class="field"><label>Название долга</label><input id="debtName" required maxlength="80" placeholder="Например, Kaspi Red"></div>
+<div class="formgrid"><div class="field"><label>Остаток долга, ₸</label><input id="debtAmount" type="number" min="1" required placeholder="Например, 250000"></div><div class="field"><label>Ежемесячный платёж, ₸</label><input id="debtPayment" type="number" min="0" value="0" required></div></div>
+<div class="formgrid"><div class="field"><label>Дата следующего платежа</label><input id="debtDue" type="date"></div><div class="field"><label>День платежа (если регулярный)</label><input id="debtDay" type="number" min="1" max="31" placeholder="Например, 25"></div></div>
+<div class="form-actions"><button class="btn primary" type="submit">Сохранить долг</button><button class="btn" type="button" onclick="closeModal('debtModal')">Отмена</button></div></form></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='blackbook_finance_v1';
+let db=loadDB();
+function loadDB(){try{return JSON.parse(localStorage.getItem(KEY))||{transactions:[],debts:[]}}catch(e){return{transactions:[],debts:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function money(n){return new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(Number(n)||0))+' ₸'}
+function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function monthKey(d){return (d||localDate()).slice(0,7)}
+function niceDate(s){if(!s)return 'Дата не указана';let [y,m,d]=s.split('-');return `${d}.${m}.${y}`}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){let el=document.getElementById('toast');el.textContent=s;el.style.display='block';setTimeout(()=>el.style.display='none',2200)}
+function openTx(){document.getElementById('txDate').value=localDate();document.getElementById('txModal').classList.add('open')}
+function openDebt(){document.getElementById('debtForm').reset();document.getElementById('debtModal').classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+function switchTab(id){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.getElementById('txForm').addEventListener('submit',e=>{e.preventDefault();db.transactions.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),type:document.getElementById('txType').value,amount:Number(document.getElementById('txAmount').value),category:document.getElementById('txCategory').value,date:document.getElementById('txDate').value,note:document.getElementById('txNote').value.trim()});save();closeModal('txModal');e.target.reset();toast('Операция сохранена')});
+document.getElementById('debtForm').addEventListener('submit',e=>{e.preventDefault();db.debts.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name:document.getElementById('debtName').value.trim(),amount:Number(document.getElementById('debtAmount').value),payment:Number(document.getElementById('debtPayment').value),due:document.getElementById('debtDue').value,day:Number(document.getElementById('debtDay').value)||null,paidMonth:''});save();closeModal('debtModal');toast('Долг сохранён')});
+function txRow(t,allowDelete=true){let inc=t.type==='income';return `<div class="item"><div class="item-main"><div class="item-title">${esc(t.note||t.category)}</div><div class="item-meta">${esc(t.category)} · ${niceDate(t.date)}</div></div><div class="item-right"><div class="item-amount ${inc?'positive':'negative'}">${inc?'+':'−'}${money(t.amount)}</div>${allowDelete?`<button class="btn small danger" onclick="deleteTx('${t.id}')">Удалить</button>`:''}</div></div>`}
+function deleteTx(id){if(confirm('Удалить эту операцию?')){db.transactions=db.transactions.filter(t=>t.id!==id);save();toast('Операция удалена')}}
+function deleteDebt(id){if(confirm('Удалить этот долг?')){db.debts=db.debts.filter(d=>d.id!==id);save();toast('Долг удалён')}}
+function payDebt(id){let d=db.debts.find(x=>x.id===id);if(!d||d.payment<=0){toast('Сначала укажи сумму ежемесячного платежа');return}let amt=Math.min(d.amount,d.payment);if(!confirm(`Записать платёж ${money(amt)} по долгу «${d.name}» и добавить его в расходы?`))return;d.amount-=amt;d.paidMonth=monthKey(localDate());db.transactions.push({id:String(Date.now()),type:'expense',amount:amt,category:'Кредиты и долги',date:localDate(),note:'Платёж: '+d.name});if(d.amount<=0){db.debts=db.debts.filter(x=>x.id!==id);toast('Долг погашен!')}else toast('Платёж учтён');save()}
+function empty(msg){return `<div class="empty">${msg}</div>`}
+function byCategory(transactions){let out={};transactions.filter(t=>t.type==='expense').forEach(t=>out[t.category]=(out[t.category]||0)+Number(t.amount));return Object.entries(out).sort((a,b)=>b[1]-a[1])}
+function categoryHTML(transactions){let arr=byCategory(transactions),sum=arr.reduce((s,x)=>s+x[1],0);if(!arr.length)return empty('Добавь расходы, чтобы увидеть категории.');let shades=['#f1f1f1','#c9c9c9','#a0a0a0','#777','#5b5b5b','#414141','#303030'];let accum=0,segments=arr.map((x,i)=>{let start=accum;accum+=sum?x[1]/sum*100:0;return `${shades[i%shades.length]} ${start}% ${accum}%`});return `<div class="chart-wrap"><div class="donut" style="background:conic-gradient(${segments.join(',')})"><div class="donut-center"><b>${money(sum)}</b><small>расходы</small></div></div><div class="legend">${arr.slice(0,7).map((x,i)=>`<div class="legend-row"><span>${esc(x[0])}</span><b>${money(x[1])}</b></div>`).join('')}</div></div>`}
+function monthSum(key,type){return db.transactions.filter(t=>monthKey(t.date)===key&&t.type===type).reduce((s,t)=>s+Number(t.amount),0)}
+function render(){let now=new Date(),current=localDate().slice(0,7);document.getElementById('monthLabel').textContent=now.toLocaleDateString('ru-RU',{month:'long',year:'numeric'});if(!document.getElementById('filterMonth').value)document.getElementById('filterMonth').value=current;
+let income=monthSum(current,'income'),expense=monthSum(current,'expense'),debt=db.debts.reduce((s,d)=>s+Number(d.amount),0);
+document.getElementById('balance').textContent=money(income-expense);document.getElementById('balance').className='value '+(income-expense>=0?'positive':'negative');document.getElementById('income').textContent=money(income);document.getElementById('expense').textContent=money(expense);document.getElementById('debtTotal').textContent=money(debt);document.getElementById('debtPageTotal').textContent=money(debt);document.getElementById('debtHint').textContent=db.debts.length+' активных долгов';
+let recent=[...db.transactions].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);document.getElementById('recentList').innerHTML=recent.length?recent.map(t=>txRow(t,false)).join(''):empty('Пока нет операций.<br>Нажми «＋ Операция», чтобы добавить первую.');
+document.getElementById('overviewChart').innerHTML=categoryHTML(db.transactions.filter(t=>monthKey(t.date)===current));
+let fm=document.getElementById('filterMonth').value||current,ft=document.getElementById('filterType').value;let filtered=db.transactions.filter(t=>monthKey(t.date)===fm&&(ft==='all'||t.type===ft)).sort((a,b)=>b.date.localeCompare(a.date));document.getElementById('txList').innerHTML=filtered.length?filtered.map(t=>txRow(t)).join(''):empty('Операций за выбранный период нет.');
+document.getElementById('debtList').innerHTML=db.debts.length?db.debts.map(d=>`<div class="item"><div class="item-main"><div class="item-title">${esc(d.name)}</div><div class="item-meta">Платёж: ${money(d.payment)}${d.due?' · до '+niceDate(d.due):''}</div><div class="item-meta">Остаток: ${money(d.amount)}</div></div><div class="item-right"><button class="btn small primary" onclick="payDebt('${d.id}')">Оплатить</button><button class="btn small danger" onclick="deleteDebt('${d.id}')">Удалить</button></div></div>`).join(''):empty('Добавь кредиты, рассрочки или другие долги.');
+let pays=db.debts.filter(d=>d.payment>0).sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'));document.getElementById('paymentList').innerHTML=pays.length?pays.map(d=>`<div class="item"><div class="item-main"><div class="item-title">${esc(d.name)}</div><div class="item-meta">${d.due?'Следующий платёж: '+niceDate(d.due):(d.day?'Каждый месяц, '+d.day+'-го числа':'Дата не указана')}</div></div><div class="item-right"><div class="item-amount">${money(d.payment)}</div><button class="btn small" onclick="payDebt('${d.id}')">Отметить оплату</button></div></div>`).join(''):empty('Регулярные платежи появятся здесь.');
+document.getElementById('statsChart').innerHTML=categoryHTML(db.transactions.filter(t=>monthKey(t.date)===current));
+let n=Number(document.getElementById('statsPeriod').value)||6;let months=[];for(let i=n-1;i>=0;i--){let d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`)}
+let sums=months.map(k=>({k,inc:monthSum(k,'income'),exp:monthSum(k,'expense')})),max=Math.max(1,...sums.flatMap(x=>[x.inc,x.exp]));document.getElementById('monthlyBars').innerHTML=sums.map(x=>`<div><div class="bar-row"><span>${new Date(x.k+'-01T12:00:00').toLocaleDateString('ru-RU',{month:'short',year:'2-digit'})}</span><div class="bar-bg"><div class="bar" style="width:${x.inc/max*100}%"></div></div><b>${money(x.inc)}</b></div><div class="bar-row" style="margin-top:5px"><span class="muted">Расходы</span><div class="bar-bg"><div class="bar" style="width:${x.exp/max*100}%;background:#777"></div></div><span>${money(x.exp)}</span></div></div>`).join('');
+let cats=byCategory(db.transactions);document.getElementById('categoryList').innerHTML=cats.length?cats.map(([name,amount])=>`<div class="item"><div class="item-title">${esc(name)}</div><div class="item-right"><div class="item-amount">${money(amount)}</div><div class="item-meta">${expense?Math.round(amount/Math.max(1,db.transactions.filter(t=>t.type==='expense'&&monthKey(t.date)===current).reduce((s,t)=>s+t.amount,0))*100):0}% расходов за месяц</div></div></div>`).join(''):empty('Категории появятся после добавления расходов.');
+}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='blackbook-finance-backup.json';a.click();URL.revokeObjectURL(url);toast('Резервная копия сохранена')}
+function importData(e){let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let content=String(reader.result);let parsed;if(file.name.toLowerCase().endsWith('.csv')){let lines=content.split(/\r?\n/).filter(Boolean),head=lines.shift().split(/[;,]/).map(s=>s.trim().toLowerCase());let idx=(...names)=>head.findIndex(h=>names.includes(h));let dateI=idx('date','дата'),typeI=idx('type','тип'),amountI=idx('amount','сумма'),catI=idx('category','категория'),noteI=idx('note','описание','комментарий');let tx=lines.map((line,i)=>{let c=line.split(/[;,]/).map(s=>s.trim().replace(/^"|"$/g,''));let raw=(c[typeI]||'расход').toLowerCase();return{id:String(Date.now()+i),date:c[dateI]||localDate(),type:raw.includes('доход')||raw==='income'?'income':'expense',amount:Number((c[amountI]||'0').replace(/\s/g,'').replace(',','.')),category:c[catI]||'Другое',note:c[noteI]||''}}).filter(t=>t.amount>0);parsed={transactions:tx,debts:[]}}else parsed=JSON.parse(content);if(!Array.isArray(parsed.transactions))throw new Error('format');if(!confirm('Импорт заменит текущие данные. Перед продолжением лучше экспортировать резервную копию. Продолжить?'))return;db={transactions:parsed.transactions,debts:Array.isArray(parsed.debts)?parsed.debts:[]};save();toast('Данные импортированы')}catch(err){alert('Не удалось прочитать файл. Для JSON используй резервную копию BLACK/BOOK. CSV должен содержать столбцы: date,type,amount,category,note.')}};reader.readAsText(file);e.target.value=''}
+render();
+</script>
+</body>
+</html>
